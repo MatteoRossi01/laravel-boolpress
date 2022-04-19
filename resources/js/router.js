@@ -5,8 +5,9 @@ Vue.use(VueRouter);
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
-import Posts from './pages/Posts'
+import Blog from './pages/Blog'
 import SinglePost from './pages/SinglePost'
+import ErrorPage from './pages/ErrorPage';
 
 const routes = new VueRouter({
     routes: [
@@ -27,16 +28,20 @@ const routes = new VueRouter({
             component: Contact,
         },
         {
-            path : '/posts',
-            name: 'posts',
-            component: Posts,
+            path : '/blog',
+            name: 'blog',
+            component: Blog,
         },
         {
-            path: '/posts/:slug',
+            path: '/blog/:slug',
             name: 'single-post',
             component: SinglePost,
+        },
+        {
+            path: '/*',
+            name: 'errorPage',
+            component: ErrorPage
         }
-
     ]
 });
 

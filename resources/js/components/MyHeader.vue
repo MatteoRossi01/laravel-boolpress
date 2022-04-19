@@ -5,12 +5,12 @@
             <a class="fs-2 nav-link" href="#">BoolPress</a>
         </div>
 
-        <div class="my_link me-5 d-flex justify-content-around">
-            <router-link :to="{name: 'home'}" class="nav-link">Home</router-link>
-            <router-link :to="{name: 'about'}" class="nav-link">Chi Siamo</router-link>
-            <router-link :to="{name: 'contact'}" class="nav-link">Contatti</router-link>
-            <router-link :to="{name: 'posts'}" class="nav-link">Visualizza i Post</router-link>
+        <div class="box-link">
+            <div v-for="menuItem in menuItems" :key="menuItem.routeName" class="my_link d-flex justify-content-around">
+                <router-link class="nav-link" :to="{name: menuItem.routeName}">{{menuItem.label}}</router-link>
+            </div>  
         </div>
+        
 
     </header>
 </template>
@@ -20,6 +20,29 @@
 
 export default{
     name: 'Header',
+
+    data() {
+        return {
+            menuItems: [
+                {
+                    routeName: 'home',
+                    label: 'Home'
+                },
+                {
+                    routeName: 'about',
+                    label: 'Chi Siamo'
+                },
+                {
+                    routeName: 'contact',
+                    label: 'Contatti'
+                },
+                {
+                    routeName: 'blog',
+                    label: 'Blog'
+                },
+            ]
+        }
+    }
 }
 </script>
 

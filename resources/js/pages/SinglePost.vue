@@ -1,31 +1,53 @@
 <template>
     <div class="container">
-        <h1> Lo slug del post è: {{ $route.params.slug }}</h1>
-        <h1>Il titolo del post è {{post.title}}</h1>
-        <p>Contenuto del post è {{post.content}}</p>
+    <div class="row">
+      <div class="col-12">
+        <div v-if="post">
+          <h1>{{post.title}}</h1>
+          <h3 v-if="post.category">Categoria: {{post.category.name}}</h3>
+          <p>{{post.content}}</p>
+          <p>Tags: </p>
+          <ul>
+            <li v-for="tag in post.tags" :key="tag.id">
+              {{tag.name}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <router-link class="btn btn-primary text-uppercase" :to="{name: 'blog'}">Go Back</router-link>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 export default {
     name: 'SinglePost',
-    data()  {
-        return {
-            post: [],
+    data(){
+        return{
+            slug : this.$route.params.slug,
+            post : null,
         }
     },
     methods: {
-        getSinglePost(slug){
-            axios.get('/api/posts/' + slug)
-            .then((response) => {
-                console.log(response);
-                this.post = response.data.result;
+        getSinglePost(){
+            axios.get('/api/posts/' + this.slug)
+            .then(response =>{
+                if (response.data.success == false){
+                    this.$router.push({name: 'errorPage'});
+                }else{
+                    this.post = response.data.result;
+                }
             })
         }
     },
-    created() {
-        this.getSinglePost(this.$route.params.slug);
-    }
+  mounted(){
+    this.getSinglePost();
+  }
 }
 </script>
 
