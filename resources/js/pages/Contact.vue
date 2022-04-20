@@ -1,16 +1,81 @@
 <template>
-    <div class="container">
-        <h1>Contattaci</h1>
-        <p>
-            Fugiat nostrud irure proident anim do aliqua cillum amet excepteur est fugiat ea eu. Cupidatat mollit tempor non ea duis veniam culpa. Incididunt labore veniam ad veniam non elit incididunt sit minim. Elit officia laborum aliquip do veniam esse sunt consequat tempor laboris sunt tempor duis aliqua aute. Nulla nostrud aute et cillum adipisicing incididunt incididunt dolor irure velit fugiat excepteur pariatur esse elit. Commodo proident reprehenderit adipisicing occaecat fugiat aute labore. Anim nulla nisi ut velit adipisicing aliquip. Labore velit fugiat deserunt nulla excepteur eiusmod dolore mollit sunt sint. Deserunt dolore dolor ut proident do veniam in do non duis minim do. Duis et do dolor Lorem do deserunt amet.
-        </p>
-    </div>
+  <div class="container">
+      <div class="row">
+        <div class="col-12">
+            <form @submit.prevent="sendForm">
+
+                <div v-if="success" class="alert alert-success">
+                    Email inviata con successo!!
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Come ti chiami?</label>
+                    <input required type="text" class="form-control" :class="{'is-invalid':errors.name}" id="name" name="name" v-model="name">
+                    <p v-for="(error, index) in errors.name" :key="'error_name'+index" class="invalid-feedback">
+                        {{error}}
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Inserisci la tua email</label>
+                    <input required type="email" class="form-control" :class="{'is-invalid':errors.email}" id="email" name="email" v-model="email">
+                    <p v-for="(error, index) in errors.email" :key="'error_email'+index" class="invalid-feedback">
+                        {{error}}
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Cosa vuoi dirci?</label>
+                    <textarea required class="form-control" :class="{'is-invalid':errors.message}" id="message" rows="10" name="message" v-model="message"></textarea>
+                    <p v-for="(error, index) in errors.message" :key="'error_message'+index" class="invalid-feedback">
+                        {{error}}
+                    </p>
+                </div>
+
+                <button type="submit" class="btn btn-primary">{{sendingInProgress?'Invio in corso...':'Invia'}}</button>
+
+            </form>
+        </div>
+      </div>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'Contact',
-}
+  name: "Contact",
+  data() {
+      return {
+            name: '',
+            email: '',
+            message: '',
+            sendingInProgress: false,
+            errors: {},
+            success: false,
+      }
+  },
+  methods: {
+      sendForm() {
+          this.sendingInProgress = true;
+          axios.post('/api/contacts', {
+              'name': this.name,
+              'email': this.email,
+              'message': this.message
+          }).then(response => {
+            this.sendingInProgress = false;
+            if (response.data.errors) {
+                this.errors = response.data.errors;
+                this.success = false;
+            } else {
+                this.success = true;
+                this.name = '';
+                this.email = '';
+                this.message = '';
+                this.errors = {};
+            }
+          });
+      }
+  }
+};
 </script>
 
 <style>

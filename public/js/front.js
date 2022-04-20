@@ -2150,8 +2150,76 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'Contact'
+  name: "Contact",
+  data: function data() {
+    return {
+      name: '',
+      email: '',
+      message: '',
+      sendingInProgress: false,
+      errors: {},
+      success: false
+    };
+  },
+  methods: {
+    sendForm: function sendForm() {
+      var _this = this;
+
+      this.sendingInProgress = true;
+      axios.post('/api/contacts', {
+        'name': this.name,
+        'email': this.email,
+        'message': this.message
+      }).then(function (response) {
+        _this.sendingInProgress = false;
+
+        if (response.data.errors) {
+          _this.errors = response.data.errors;
+          _this.success = false;
+        } else {
+          _this.success = true;
+          _this.name = '';
+          _this.email = '';
+          _this.message = '';
+          _this.errors = {};
+        }
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -3102,24 +3170,212 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("h1", [_vm._v("Contattaci")]),
-      _vm._v(" "),
-      _c("p", [
-        _vm._v(
-          "\n        Fugiat nostrud irure proident anim do aliqua cillum amet excepteur est fugiat ea eu. Cupidatat mollit tempor non ea duis veniam culpa. Incididunt labore veniam ad veniam non elit incididunt sit minim. Elit officia laborum aliquip do veniam esse sunt consequat tempor laboris sunt tempor duis aliqua aute. Nulla nostrud aute et cillum adipisicing incididunt incididunt dolor irure velit fugiat excepteur pariatur esse elit. Commodo proident reprehenderit adipisicing occaecat fugiat aute labore. Anim nulla nisi ut velit adipisicing aliquip. Labore velit fugiat deserunt nulla excepteur eiusmod dolore mollit sunt sint. Deserunt dolore dolor ut proident do veniam in do non duis minim do. Duis et do dolor Lorem do deserunt amet.\n    "
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-12" }, [
+        _c(
+          "form",
+          {
+            on: {
+              submit: function ($event) {
+                $event.preventDefault()
+                return _vm.sendForm.apply(null, arguments)
+              },
+            },
+          },
+          [
+            _vm.success
+              ? _c("div", { staticClass: "alert alert-success" }, [
+                  _vm._v(
+                    "\n                  Email inviata con successo!!\n              "
+                  ),
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "form-group" },
+              [
+                _c("label", { attrs: { for: "name" } }, [
+                  _vm._v("Come ti chiami?"),
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.name,
+                      expression: "name",
+                    },
+                  ],
+                  staticClass: "form-control",
+                  class: { "is-invalid": _vm.errors.name },
+                  attrs: {
+                    required: "",
+                    type: "text",
+                    id: "name",
+                    name: "name",
+                  },
+                  domProps: { value: _vm.name },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.name = $event.target.value
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _vm._l(_vm.errors.name, function (error, index) {
+                  return _c(
+                    "p",
+                    {
+                      key: "error_name" + index,
+                      staticClass: "invalid-feedback",
+                    },
+                    [
+                      _vm._v(
+                        "\n                      " +
+                          _vm._s(error) +
+                          "\n                  "
+                      ),
+                    ]
+                  )
+                }),
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "form-group" },
+              [
+                _c("label", { attrs: { for: "email" } }, [
+                  _vm._v("Inserisci la tua email"),
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.email,
+                      expression: "email",
+                    },
+                  ],
+                  staticClass: "form-control",
+                  class: { "is-invalid": _vm.errors.email },
+                  attrs: {
+                    required: "",
+                    type: "email",
+                    id: "email",
+                    name: "email",
+                  },
+                  domProps: { value: _vm.email },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.email = $event.target.value
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _vm._l(_vm.errors.email, function (error, index) {
+                  return _c(
+                    "p",
+                    {
+                      key: "error_email" + index,
+                      staticClass: "invalid-feedback",
+                    },
+                    [
+                      _vm._v(
+                        "\n                      " +
+                          _vm._s(error) +
+                          "\n                  "
+                      ),
+                    ]
+                  )
+                }),
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "form-group" },
+              [
+                _c("label", { attrs: { for: "message" } }, [
+                  _vm._v("Cosa vuoi dirci?"),
+                ]),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.message,
+                      expression: "message",
+                    },
+                  ],
+                  staticClass: "form-control",
+                  class: { "is-invalid": _vm.errors.message },
+                  attrs: {
+                    required: "",
+                    id: "message",
+                    rows: "10",
+                    name: "message",
+                  },
+                  domProps: { value: _vm.message },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.message = $event.target.value
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _vm._l(_vm.errors.message, function (error, index) {
+                  return _c(
+                    "p",
+                    {
+                      key: "error_message" + index,
+                      staticClass: "invalid-feedback",
+                    },
+                    [
+                      _vm._v(
+                        "\n                      " +
+                          _vm._s(error) +
+                          "\n                  "
+                      ),
+                    ]
+                  )
+                }),
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+              [
+                _vm._v(
+                  _vm._s(_vm.sendingInProgress ? "Invio in corso..." : "Invia")
+                ),
+              ]
+            ),
+          ]
         ),
       ]),
-    ])
-  },
-]
+    ]),
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
