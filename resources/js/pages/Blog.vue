@@ -13,6 +13,7 @@
                     :category="post.category"
                     :tags="post.tags"
                     :author="post.author"
+                    :img="post.cover"
                     />
                 </div>
             </div>

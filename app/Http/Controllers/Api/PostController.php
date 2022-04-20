@@ -19,6 +19,14 @@ class PostController extends Controller
     {
         $posts = Post::with(['category', 'tags'])->paginate(4);
 
+        foreach($posts as $post){
+            if ($post->cover) {
+                $post->cover = url('storage/'.$post->cover);
+            } else {
+                $post->cover = url('img/fallback_img.jpg');
+            }
+        }
+
         return response()->json(
             [
                 'results' => $posts,
@@ -30,6 +38,13 @@ class PostController extends Controller
     public function show($slug){
 
         $post = Post::where('slug', $slug)->with(['category', 'tags'])->first();
+
+        if ($post->cover) {
+            $post->cover = url('storage/'.$post->cover);
+        } else {
+            $post->cover = url('img/fallback_img.jpg');
+        }
+        
         if($post){
             return response()->json([
                 'result' => $post,

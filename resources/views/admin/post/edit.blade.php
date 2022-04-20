@@ -7,10 +7,20 @@
 
                 <h1>Modifica post</h1>
 
-                <form method="POST" action={{route('admin.posts.update', $post->id)}}>
+                <form method="POST" action={{route('admin.posts.update', $post->id)}} enctype="multipart/form-data">
 
                     @csrf
                     @method('PUT')
+
+                    @if ($post->cover)
+                        <h3>Immagine attuale</h3>
+                        <img class=" w-25" src="{{asset('storage/' . $post->cover)}}" alt="{{$post->title}}">
+                    @endif
+  
+                    <div class="form-group">
+                        <label for="image">Carica nuova immagine di copertina</label>
+                        <input class="form-control" type="file" name="image" id="image">
+                    </div>
 
                     <div class="form-group">
                       <label for="title">Titolo</label>
